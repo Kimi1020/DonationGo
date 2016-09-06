@@ -46,7 +46,6 @@ type Donation struct {
 type Request struct {
     id string
     name string
-    projectName string
     description string
     expectedMoney int
     currentMoney int
@@ -81,6 +80,19 @@ func(t *SimpleChaincode) Init(stub *shim.ChaincodeStub, function string, args []
         return nil, err
     }
 
+    //init some requests to test createDonation function
+    //requestid, err := exec.Command("uuidgen").Output()
+    if err != nil {
+        return nil, err
+    }
+    
+    request := Request{"requestid", "Dream School", "Hope to go to Peking University!", 50000, 0, nil}
+    rjson, err := json.Marshal(request)
+    if err != nil {
+        return nil, err
+    }
+    stub.PutState("requestid", rjson)
+
     return nil, nil
 }
 
@@ -108,6 +120,9 @@ func (t *SimpleChaincode) createDonation(stub *shim.ChaincodeStub, args []string
     // var personByte []byte
      var err error
 
+     if len(args) != 3 {
+         return nil, errors.New("Incorrect number of arguments. Expecting 3")
+     }
      from = args[0]
      toRid = args[1]
      money, err = strconv.Atoi(args[2])
