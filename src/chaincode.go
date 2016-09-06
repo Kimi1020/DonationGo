@@ -278,12 +278,13 @@ func (t *SimpleChaincode) read(stub *shim.ChaincodeStub, args []string) ([]byte,
 
     key = args[0]
     valAsbytes, err := stub.GetState(key)
-    var r Request
-    err = json.Unmarshal(valAsbytes, &r)
+    
     if err != nil {
         jsonResp = "{\"Error\":\"Failed to get state for " + key + "\"}"
         return nil, errors.New(jsonResp)
     }
-
-    return r.description, nil
+    if valAsbytes == nil {
+        valAsbytes = []byte("we didn't find the request id")
+    } 
+    return valAsbytes, nil
 }
