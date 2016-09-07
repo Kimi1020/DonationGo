@@ -122,7 +122,7 @@ func (t *SimpleChaincode) createDonation(stub *shim.ChaincodeStub, args []string
 
      var donation Donation
      donation = Donation{Id: "donationid", Rid: toRid, Who: from, Money: money}
-     djson, err := json.Marshal(donation)
+     djson, err := json.Marshal(&donation)
      if err != nil {
         return nil, err
      }
