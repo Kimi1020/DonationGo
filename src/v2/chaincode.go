@@ -121,11 +121,12 @@ func (t *SimpleChaincode) createDonation(stub *shim.ChaincodeStub, args []string
 
      var donation Donation
      donation = Donation{Id: "donationid", Rid: toRid, Who: from, Money: money}
+     did2 := donation.Id
      djson, err := json.Marshal(&donation)
      if err != nil {
         return nil, err
      }
-     stub.PutState(donation.Id, djson)
+     stub.PutState(did2, djson)
      
      var person Person
      var myReqs, myDons []string
@@ -134,11 +135,12 @@ func (t *SimpleChaincode) createDonation(stub *shim.ChaincodeStub, args []string
      if err != nil {
         fmt.Println("No person value for " + from)
         person = Person{Id: from, Name: from, MyRequests: myReqs, MyDonations: myDons}
+        pid2 := person.Id
         pJson, err := json.Marshal(&person)
         if err != nil {
             return nil, errors.New("failed to JSON person instance")
         }
-        stub.PutState(from, pJson)
+        stub.PutState(pid2, pJson)
      } else {
         err = json.Unmarshal(personByte, &person)
         if err != nil {
