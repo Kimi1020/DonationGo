@@ -289,9 +289,8 @@ func (t *SimpleChaincode) read(stub *shim.ChaincodeStub, args []string) ([]byte,
     if valAsbytes == nil {
         return []byte("cannot find the key's value of the chaincode"), nil
     }
-    var re Request
-    err = json.Unmarshal(valAsbytes, &re)
-    newVal := []byte(re.name)
-    log.Println(newVal)
-    return newVal, nil
+    //var re Request
+    //err = json.Unmarshal(valAsbytes, &re)
+
+    return valAsbytes, nil
 }
