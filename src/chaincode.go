@@ -82,9 +82,9 @@ func(t *SimpleChaincode) Init(stub *shim.ChaincodeStub, function string, args []
 
     //init some requests to test createDonation function
     //requestid, err := exec.Command("uuidgen").Output()
-    if err != nil {
-        return nil, err
-    }
+    // if err != nil {
+    //     return nil, err
+    // }
     
     request := Request{"requestid", "Dream School", "Hope to go to Peking University!", 50000, 0, nil}
     rjson, err := json.Marshal(request)
@@ -278,13 +278,12 @@ func (t *SimpleChaincode) read(stub *shim.ChaincodeStub, args []string) ([]byte,
 
     key = args[0]
     valAsbytes, err := stub.GetState(key)
-    
     if err != nil {
         jsonResp = "{\"Error\":\"Failed to get state for " + key + "\"}"
         return nil, errors.New(jsonResp)
     }
-    if valAsbytes == nil {
-        valAsbytes = []byte("we didn't find the request id")
-    } 
+    var re Request
+    err = json.Unmarshal(valAsbytes, &re)
+    valAsbytes = []byte(re.name)
     return valAsbytes, nil
 }
