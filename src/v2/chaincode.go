@@ -230,6 +230,8 @@ func (t *SimpleChaincode) Query(stub *shim.ChaincodeStub, function string, args 
 
 func (t *SimpleChaincode) read(stub *shim.ChaincodeStub, args []string) ([]byte, error) {
     log.Println("Get into read function")
+    fmt.Println("fmt Into read function")
+    fmt.Println(args[1])
     var key, jsonResp string
     var err error
 
