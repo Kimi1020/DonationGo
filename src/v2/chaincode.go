@@ -130,25 +130,25 @@ func (t *SimpleChaincode) createDonation(stub *shim.ChaincodeStub, args []string
      
      
      
-     var person Person
-     var myReqs, myDons []string
-     // update person data
-     personByte, err := stub.GetState(from)
-     if err != nil {
-        fmt.Println("No person value for " + from)
-        person = Person{Id: from, Name: from, MyRequests: myReqs, MyDonations: myDons}
-        pid2 := person.Id
-        pJson, err := json.Marshal(&person)
-        if err != nil {
-            return nil, errors.New("failed to JSON person instance")
-        }
-        stub.PutState(pid2, pJson)
-     } else {
-        err = json.Unmarshal(personByte, &person)
-        if err != nil {
-            return nil, errors.New("failed to Unmarshal person instance")
-        }
-     }
+     // var person Person
+     // var myReqs, myDons []string
+     // // update person data
+     // personByte, err := stub.GetState(from)
+     // if err != nil {
+     //    fmt.Println("No person value for " + from)
+     //    person = Person{Id: from, Name: from, MyRequests: myReqs, MyDonations: myDons}
+     //    pid2 := person.Id
+     //    pJson, err := json.Marshal(&person)
+     //    if err != nil {
+     //        return nil, errors.New("failed to JSON person instance")
+     //    }
+     //    stub.PutState(pid2, pJson)
+     // } else {
+     //    err = json.Unmarshal(personByte, &person)
+     //    if err != nil {
+     //        return nil, errors.New("failed to Unmarshal person instance")
+     //    }
+     // }
     
     // myDonations := person.MyDonations
     // if myDonations == nil {
