@@ -122,8 +122,8 @@ func (t *SimpleChaincode) createDonation(stub *shim.ChaincodeStub, args []string
      if err != nil {
         return nil, err
      }
-     fmt.Println(djson)
-     stub.PutState("donationid", []byte(donation.Id))
+     var a = "donationid"
+     stub.PutState(a, djson)
      
      
      
