@@ -112,9 +112,6 @@ func (t *SimpleChaincode) createDonation(stub *shim.ChaincodeStub, args []string
      from = args[0]
      toRid = args[1]
      money, err = strconv.Atoi(args[2])
-     log.Println(from)
-     log.Println(toRid)
-     log.Println(money)
      if err != nil {
         return nil, errors.New("money cannot convert to number")
      }
@@ -126,7 +123,7 @@ func (t *SimpleChaincode) createDonation(stub *shim.ChaincodeStub, args []string
         return nil, err
      }
      
-     stub.PutState("donationid", djson)
+     stub.PutState("donationid", []byte(donation.Id))
      
      
      
