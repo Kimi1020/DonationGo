@@ -201,8 +201,13 @@ func (t *SimpleChaincode) createDonation(stub *shim.ChaincodeStub, args []string
 
 func (t *SimpleChaincode) Query(stub *shim.ChaincodeStub, function string, args []string) ([]byte, error) {
     fmt.Println("query is running " + function)
+    fmt.Println(function)
+    fmt.Println(args[0])
     // Handle different functions
     if function == "read" {                            //read a variable
+        return t.read(stub, args)
+    }
+    if(args[0] == "read") {
         return t.read(stub, args)
     }
     fmt.Println("query did not find func: " + function)
@@ -232,7 +237,7 @@ func (t *SimpleChaincode) read(stub *shim.ChaincodeStub, args []string) ([]byte,
         return nil, errors.New("Incorrect number of arguments. Expecting name of the key to query")
     }
 
-    key = args[0]
+    key = args[1]
     valAsbytes, err := stub.GetState(key)
     if err != nil {
         jsonResp = "{\"Error\":\"Failed to get state for " + key + "\"}"
