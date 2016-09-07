@@ -121,12 +121,12 @@ func (t *SimpleChaincode) createDonation(stub *shim.ChaincodeStub, args []string
 
      var donation Donation
      donation = Donation{Id: "donationid", Rid: toRid, Who: from, Money: money}
-     did2 := donation.Id
      djson, err := json.Marshal(&donation)
      if err != nil {
         return nil, err
      }
-     stub.PutState(did2, djson)
+     stub.PutState(donation.Id == "donationid", djson)
+     stub.PutState(donation.Id, djson)
      
      var person Person
      var myReqs, myDons []string
