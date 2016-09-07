@@ -138,7 +138,7 @@ func (t *SimpleChaincode) createDonation(stub *shim.ChaincodeStub, args []string
      // update person data
      personByte, err := stub.GetState(from)
      if err != nil {
-        fmt.Println("No person value for " + form)
+        fmt.Println("No person value for " + from)
         person = Person{Id: from, Name: from, MyRequests: myReqs, MyDonations: myDons}
         pJson, err := json.Marshal(&person)
         if err != nil {
