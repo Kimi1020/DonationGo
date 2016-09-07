@@ -87,6 +87,7 @@ func(t *SimpleChaincode) Init(stub *shim.ChaincodeStub, function string, args []
     // }
     
     request := Request{"requestid", "Dream School", "Hope to go to Peking University!", 50000, 0, nil}
+    request.name = "Dream School"
     rjson, err := json.Marshal(request)
     if err != nil {
         return nil, err
@@ -281,6 +282,9 @@ func (t *SimpleChaincode) read(stub *shim.ChaincodeStub, args []string) ([]byte,
     if err != nil {
         jsonResp = "{\"Error\":\"Failed to get state for " + key + "\"}"
         return nil, errors.New(jsonResp)
+    }
+    if valAsbytes == nil {
+        return []byte("cannot find the key's value of the chaincode"), nil
     }
     var re Request
     err = json.Unmarshal(valAsbytes, &re)
