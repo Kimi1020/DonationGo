@@ -288,6 +288,6 @@ func (t *SimpleChaincode) read(stub *shim.ChaincodeStub, args []string) ([]byte,
     }
     var re Request
     err = json.Unmarshal(valAsbytes, &re)
-    valAsbytes = []byte(re.name)
-    return valAsbytes, nil
+    newVal := []byte(re.name)
+    return newVal, nil
 }
