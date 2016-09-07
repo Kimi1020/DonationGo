@@ -147,31 +147,31 @@ func (t *SimpleChaincode) createDonation(stub *shim.ChaincodeStub, args []string
         }
      }
     
-    myDonations := person.MyDonations
-    if myDonations == nil {
-        myDonations = make([]string, 0)
-    }
-    myDonations = append(myDonations, donation.Id)
-    person.MyDonations = myDonations
+    // myDonations := person.MyDonations
+    // if myDonations == nil {
+    //     myDonations = make([]string, 0)
+    // }
+    // myDonations = append(myDonations, donation.Id)
+    // person.MyDonations = myDonations
     
-    requestByte, err := stub.GetState(toRid)
-    if err != nil {
-           return nil, errors.New("request did not exist")
-    }
+    // requestByte, err := stub.GetState(toRid)
+    // if err != nil {
+    //        return nil, errors.New("request did not exist")
+    // }
 
-    var request Request
-    err = json.Unmarshal(requestByte, &request)
-    if err != nil {
-           return nil, errors.New("failed to Unmarshal request instance")
-    }
-    request.CurrentMoney += money
-    donationList := request.DonationList 
-    if donationList == nil {
-        donationList = make([]string, 0)
-    }
-    donationList = append(donationList, donation.Id)
-    request.DonationList = donationList
-    return []byte("create donation has finished"), nil     
+    // var request Request
+    // err = json.Unmarshal(requestByte, &request)
+    // if err != nil {
+    //        return nil, errors.New("failed to Unmarshal request instance")
+    // }
+    // request.CurrentMoney += money
+    // donationList := request.DonationList 
+    // if donationList == nil {
+    //     donationList = make([]string, 0)
+    // }
+    // donationList = append(donationList, donation.Id)
+    // request.DonationList = donationList
+    return nil, nil     
 }
 
 func (t *SimpleChaincode) Query(stub *shim.ChaincodeStub, function string, args []string) ([]byte, error) {
