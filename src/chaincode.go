@@ -26,6 +26,7 @@ import (
     "errors"
     "encoding/json"
     "fmt"
+    "log"
     "strconv"
     "os/exec"
     "github.com/hyperledger/fabric/core/chaincode/shim"
@@ -86,14 +87,15 @@ func(t *SimpleChaincode) Init(stub *shim.ChaincodeStub, function string, args []
     //     return nil, err
     // }
     
-    request := Request{"requestid", "Dream School", "Hope to go to Peking University!", 50000, 0, nil}
+    request := new(Request)
     request.name = "Dream School"
+    request.description ="Wanna to go to Standford University"
     rjson, err := json.Marshal(request)
     if err != nil {
         return nil, err
     }
     stub.PutState("requestid", rjson)
-
+    log.Println("init function has done!")
     return nil, nil
 }
 
@@ -283,11 +285,13 @@ func (t *SimpleChaincode) read(stub *shim.ChaincodeStub, args []string) ([]byte,
         jsonResp = "{\"Error\":\"Failed to get state for " + key + "\"}"
         return nil, errors.New(jsonResp)
     }
+    log.Println(valAsbytes)
     if valAsbytes == nil {
         return []byte("cannot find the key's value of the chaincode"), nil
     }
     var re Request
     err = json.Unmarshal(valAsbytes, &re)
     newVal := []byte(re.name)
+    log.Println(newVal)
     return newVal, nil
 }
