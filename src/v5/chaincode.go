@@ -256,7 +256,7 @@ func (t *SimpleChaincode) createRequest(stub *shim.ChaincodeStub, args []string)
      if allRes == nil {
          allRes = make([]string, 0)
      }
-     allRes = append(allRes, []byte(request.Id))
+     allRes = append(allRes, []byte(request.Id)...)
      stub.PutState("allRequests", allRes)
 
      return nil, nil
