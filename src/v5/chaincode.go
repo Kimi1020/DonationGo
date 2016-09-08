@@ -196,6 +196,7 @@ func (t *SimpleChaincode) createRequest(stub *shim.ChaincodeStub, args []string)
      //args: [jack, projectName, description, expectedMoney]
      var name, projectName, description string
      var expectedMoney int
+     var err error
      name = args[0]
      projectName = args[1]
      description = args[2]
