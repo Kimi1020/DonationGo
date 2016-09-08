@@ -207,7 +207,6 @@ func (t *SimpleChaincode) createRequest(stub *shim.ChaincodeStub, args []string)
      
      var request Request
      var dl []string
-     var myReqs, myDons []string
      request = Request{Id: "requestid", Who: name, Name: projectName, Description: description, ExpectedMoney: expectedMoney, CurrentMoney: 0, DonationList: dl}
      rj, err := json.Marshal(&request)
      if err !=nil{
@@ -221,6 +220,7 @@ func (t *SimpleChaincode) createRequest(stub *shim.ChaincodeStub, args []string)
      //     return nil, errors.New("failed to get person instance")    
      // }
      // var person Person
+     // var myReqs, myDons []string
      // if personByte == nil {
      //     person = Person{Id: name, Name: name, MyRequests: myReqs, MyDonations: myDons}
      // } else {
