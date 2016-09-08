@@ -194,6 +194,9 @@ func (t *SimpleChaincode) createDonation(stub *shim.ChaincodeStub, args []string
 
 func (t *SimpleChaincode) createRequest(stub *shim.ChaincodeStub, args []string) ([]byte, error) {
      //args: [jack, projectName, description, expectedMoney]
+     if len(args) != 4 {
+          return nil, errors.New("Incorrect number of arguments. Expecting 4")
+     }
      var name, projectName, description string
      var expectedMoney int
      var err error
@@ -213,7 +216,7 @@ func (t *SimpleChaincode) createRequest(stub *shim.ChaincodeStub, args []string)
             return nil, errors.New("failed to Marshal request instance")    
      }
      var rkey string
-     rkey = Perprefix + "requestid"
+     rkey = "requestid"
      stub.PutState(rkey, rj)
      // perkey := Perprefix + name
      // personByte, err := stub.GetState(perkey)
