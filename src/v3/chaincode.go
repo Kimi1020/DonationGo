@@ -123,7 +123,7 @@ func (t *SimpleChaincode) createDonation(stub *shim.ChaincodeStub, args []string
         return nil, err
      }
      var a = donation.Id
-     stub.PutState(a, djson)
+     stub.PutState(donation.Id, djson)
      
      
      
@@ -208,7 +208,7 @@ func (t *SimpleChaincode) read(stub *shim.ChaincodeStub, args []string) ([]byte,
         return nil, errors.New(jsonResp)
     }
 
-    five := append(valAsbytes, []byte(key))
+    five := append(valAsbytes, []byte(key)...)
 
     return five, nil
 }
