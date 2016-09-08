@@ -99,7 +99,11 @@ func(t *SimpleChaincode) Init(stub *shim.ChaincodeStub, function string, args []
 func (t *SimpleChaincode) Invoke(stub *shim.ChaincodeStub, function string, args []string) ([]byte, error) {
 
      if function == "createDonation" {
-        return t.createDonation(stub, args)
+         return t.createDonation(stub, args)
+     }
+
+     if function == "createRequest" {
+         return t.createDonation(stub, args)
      }
      return nil, errors.New("Received unknown function invocation")
 }
@@ -216,7 +220,7 @@ func (t *SimpleChaincode) createRequest(stub *shim.ChaincodeStub, args []string)
             return nil, errors.New("failed to Marshal request instance")    
      }
      var rkey string
-     rkey = "requestid"
+     rkey = Perprefix + request.Id
      stub.PutState(rkey, rj)
      // perkey := Perprefix + name
      // personByte, err := stub.GetState(perkey)
