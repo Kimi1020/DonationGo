@@ -230,7 +230,7 @@ func (t *SimpleChaincode) createRequest(stub *shim.ChaincodeStub, args []string)
      stub.PutState(pkey, pj)
 
 
-
+     return nil, nil
 
      
 }
