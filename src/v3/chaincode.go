@@ -208,7 +208,7 @@ func (t *SimpleChaincode) read(stub *shim.ChaincodeStub, args []string) ([]byte,
         return nil, errors.New(jsonResp)
     }
 
-    five := valAsbytes.append(valAsbytes, []byte(key))
+    five := append(valAsbytes, []byte(key))
 
     return five, nil
 }
