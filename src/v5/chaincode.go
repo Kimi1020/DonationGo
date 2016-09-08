@@ -219,7 +219,7 @@ func (t *SimpleChaincode) createRequest(stub *shim.ChaincodeStub, args []string)
             return nil, errors.New("failed to Unmarshal person instance")    
         }
      }
-     myRes = person.MyRequests
+     myRes := person.MyRequests
      if myRes == nil {
         myRes = make([]string, 0)
      }
