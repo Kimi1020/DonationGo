@@ -32,7 +32,6 @@ import (
     "github.com/hyperledger/fabric/core/chaincode/shim"
 )
 
-// SimpleChaincode example simple Chaincode implementation
 type SimpleChaincode struct {
 }
 
@@ -126,9 +125,6 @@ func (t *SimpleChaincode) createDonation(stub *shim.ChaincodeStub, args []string
      stub.PutState(a, djson)
      
      personByte, err := stub.GetState(from + "")
-     if personByte == nil {
-        return nil, errors.New("Person didn't exist in this stub")
-     }
      fmt.Println(personByte)
      return nil, nil
      
