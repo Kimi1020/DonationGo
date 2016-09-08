@@ -209,10 +209,11 @@ func (t *SimpleChaincode) createRequest(stub *shim.ChaincodeStub, args []string)
      var dl []string
      request = Request{Id: "requestid", Who: name, Name: projectName, Description: description, ExpectedMoney: expectedMoney, CurrentMoney: 0, DonationList: dl}
      rj, err := json.Marshal(&request)
-     if err !=nil{
+     if err != nil {
             return nil, errors.New("failed to Marshal request instance")    
      }
-     rkey := Perprefix + request.Id
+     var rkey string
+     rkey = Perprefix + "requestid"
      stub.PutState(rkey, rj)
      // perkey := Perprefix + name
      // personByte, err := stub.GetState(perkey)
