@@ -80,6 +80,9 @@ func(t *SimpleChaincode) Init(stub *shim.ChaincodeStub, function string, args []
         return nil, err
     }
     
+    var allReqs []string
+    stub.PutState("allRequests", allReqs)
+
     var names = [3]string{"Lucy", "Andy", "David"}
     var MyReqs, MyDons []string
     for _, v := range names {
@@ -222,31 +225,39 @@ func (t *SimpleChaincode) createRequest(stub *shim.ChaincodeStub, args []string)
      var rkey string
      rkey = Perprefix + request.Id
      stub.PutState(rkey, rj)
-     // perkey := Perprefix + name
-     // personByte, err := stub.GetState(perkey)
-     // if err !=nil{
-     //     return nil, errors.New("failed to get person instance")    
-     // }
-     // var person Person
-     // var myReqs, myDons []string
-     // if personByte == nil {
-     //     person = Person{Id: name, Name: name, MyRequests: myReqs, MyDonations: myDons}
-     // } else {
-     //    err := json.Unmarshal(personByte, &person)
-     //    if err !=nil{
-     //        return nil, errors.New("failed to Unmarshal person instance")    
-     //    }
-     // }
-     // myRes := person.MyRequests
-     // if myRes == nil {
-     //    myRes = make([]string, 0)
-     // }
-     // myRes = append(myRes, request.Id)
-     // person.MyRequests = myRes
-     // pj,_ := json.Marshal(person)
-     // pkey := Perprefix + person.Id
-     // stub.PutState(pkey, pj)
 
+
+     perkey := Perprefix + request.Who
+     personByte, err := stub.GetState(perkey)
+     if err !=nil{
+         return nil, errors.New("failed to get person instance")    
+     }
+     var person Person
+     var myReqs, myDons []string
+     if personByte == nil {
+         person = Person{Id: name, Name: name, MyRequests: myReqs, MyDonations: myDons}
+     } else {
+        err := json.Unmarshal(personByte, &person)
+        if err !=nil{
+            return nil, errors.New("failed to Unmarshal person instance")    
+        }
+     }
+     myRes := person.MyRequests
+     if myRes == nil {
+        myRes = make([]string, 0)
+     }
+     myRes = append(myRes, request.Id)
+     person.MyRequests = myRes
+     pj,_ := json.Marshal(person)
+     pkey := Perprefix + person.Id
+     stub.PutState(pkey, pj)
+
+     allRes, _ = stub.GetState("allRequests")
+     if allRes == nil {
+         allRes = make([]string, 0)
+     }
+     allRes = append(allRes, request.Id)
+     stub.PutState("allRequests", allRes)
 
      return nil, nil
 
