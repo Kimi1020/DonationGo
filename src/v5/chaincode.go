@@ -207,6 +207,9 @@ func (t *SimpleChaincode) createRequest(stub *shim.ChaincodeStub, args []string)
      request = Request{Id: "requestid", Who: name, Name: projectName, Description: description, ExpectedMoney: expectedMoney, CurrentMoney: 0, DonationList: dl}
      perkey := Perprefix + name
      personByte, err := stub.GetState(perkey)
+     if err !=nil{
+         return nil, errors.New("failed to get person instance")    
+     }
      var person Person
      if personByte == nil {
          person = Person{Id: name, Name: name, MyRequests: myReqs, MyDonations: myDons}
@@ -230,28 +233,6 @@ func (t *SimpleChaincode) createRequest(stub *shim.ChaincodeStub, args []string)
 
 
      
-     if person, err := stub.GetState(name); person ==nil {
-         person := new(Person)
-         pid, err:= exec.Command("uuidgen").Output()
-         person.id = pid
-         person.name = name;
-         stub.PutState(name, person)
-     }
-
-     if requestList, err := person.myRequests; requestList == nil {
-         requestList :=make([]int, 0)
-      }
-      requestList = append(requestList, request.id)
-      person.myRequests = requestList
-
-     // update allRequest
-     if requests, err := stub.GetState("allRequest"); err !=nil {
-         requests := []*Request{}
-     }
-     requests = append(requests, request)
-
-     stub.PutState(requestId, request)
-     stub.PutState("allRequest", requests)
 }
 
 
