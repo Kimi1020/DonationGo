@@ -199,7 +199,10 @@ func (t *SimpleChaincode) createRequest(stub *shim.ChaincodeStub, args []string)
      name = args[0]
      projectName = args[1]
      description = args[2]
-     expectedMoney =strconv.Atoi(args[3])
+     expectedMoney, err = strconv.Atoi(args[3])
+     if err != nil {
+        return nil, errors.New("money cannot convert to number")
+     }
      
      var request Request
      var dl []string
