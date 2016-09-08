@@ -192,54 +192,6 @@ func (t *SimpleChaincode) createDonation(stub *shim.ChaincodeStub, args []string
 }
 
 
-func (t *SimpleChaincode) createRequest(stub shim.ChaincodeStubInterface, args []string) ([]byte, error) {
-     //args: [jack, projectName, description, expectedMoney]
-     var name, projectName, description string
-     var expectedMoney int
-     name = args[0]
-     projectName = args[1]
-     description = args[2]
-     expectedMoney =args[3]
-     
-     var request Request
-     var dl []string
-     request = Request{Id: "requestid", Name: name, Description: description, ExpectedMoney: expectedMoney, CurrentMoney: 0, DonationList: dl}
-     
-   
-     /**
-     update person data
-     **/
-     if person, err := stub.GetState(name); person ==nil {
-         person := new(Person)
-         pid, err:= exec.Command("uuidgen").Output()
-         person.id = pid
-         person.name = name;
-         stub.PutState(name, person)
-     }
-
-     if requestList, err := person.myRequests; requestList == nil {
-         requestList :=make([]int, 0)
-      }
-      requestList = append(requestList, request.id)
-      person.myRequests = requestList
-
-     // update allRequest
-     if requests, err := stub.GetState("allRequest"); err !=nil {
-         requests := []*Request{}
-     }
-     requests = append(requests, request)
-
-     stub.PutState(requestId, request)
-     stub.PutState("allRequest", requests)
-}
-
-
-
-
-
-
-
-
 func (t *SimpleChaincode) Query(stub *shim.ChaincodeStub, function string, args []string) ([]byte, error) {
     log.Println("query is running " + function)
     log.Println(function)
