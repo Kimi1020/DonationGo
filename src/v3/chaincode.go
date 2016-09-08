@@ -132,6 +132,7 @@ func (t *SimpleChaincode) createDonation(stub *shim.ChaincodeStub, args []string
      // update person data
      personByte, err := stub.GetState(from)
      if err == nil {
+        fmt.Println(personByte)
         return nil, errors.New("Person exist in this stub")
      } else {
         return nil, errors.New("Person didn exist in this stub")
@@ -210,5 +211,5 @@ func (t *SimpleChaincode) read(stub *shim.ChaincodeStub, args []string) ([]byte,
         return []byte("cannot find the key's value of the chaincode"), nil
     }
 
-    return valAsbytes, nil
+    return []byte(key), nil
 }
