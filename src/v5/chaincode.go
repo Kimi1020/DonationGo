@@ -252,7 +252,7 @@ func (t *SimpleChaincode) createRequest(stub *shim.ChaincodeStub, args []string)
      pkey := Perprefix + person.Id
      stub.PutState(pkey, pj)
 
-     allRes, _ = stub.GetState("allRequests")
+     allRes, _ := stub.GetState("allRequests")
      if allRes == nil {
          allRes = make([]string, 0)
      }
