@@ -44,6 +44,7 @@ type Donation struct {
 
 type Request struct {
     Id string `json:"id"`
+    Who string `json:"who"`
     Name string  `json:"name"`
     Description string `json:"description"`
     ExpectedMoney int `json:"expectedMoney"`
@@ -190,6 +191,70 @@ func (t *SimpleChaincode) createDonation(stub *shim.ChaincodeStub, args []string
         stub.PutState(toReid,requestJson)
     return nil, nil     
 }
+
+func (t *SimpleChaincode) createRequest(stub *shim.ChaincodeStub, args []string) ([]byte, error) {
+     //args: [jack, projectName, description, expectedMoney]
+     var name, projectName, description string
+     var expectedMoney int
+     name = args[0]
+     projectName = args[1]
+     description = args[2]
+     expectedMoney =args[3]
+     
+     var request Request
+     var dl []string
+     var myReqs, myDons []string
+     request = Request{Id: "requestid", Who: name, Name: projectName, Description: description, ExpectedMoney: expectedMoney, CurrentMoney: 0, DonationList: dl}
+     perkey := Perprefix + name
+     personByte, err := stub.GetState(perkey)
+     var person Person
+     if personByte == nil {
+         person = Person{Id: name, Name: name, MyRequests: myReqs, MyDonations: myDons}
+     } else {
+        err := json.Unmarshal(personByte, &person)
+        if err !=nil{
+            return nil, errors.New("failed to Unmarshal person instance")    
+        }
+     }
+     myRes = person.MyRequests
+     if myRes == nil {
+        myRes = make([]string, 0)
+     }
+     myRes = append(myRes, request.Id)
+     person.MyRequests = myRes
+     pj,_ := json.Marshal(person)
+     pkey := Perprefix + person.Id
+     stub.PutState(pkey, pj)
+
+
+
+
+     
+     if person, err := stub.GetState(name); person ==nil {
+         person := new(Person)
+         pid, err:= exec.Command("uuidgen").Output()
+         person.id = pid
+         person.name = name;
+         stub.PutState(name, person)
+     }
+
+     if requestList, err := person.myRequests; requestList == nil {
+         requestList :=make([]int, 0)
+      }
+      requestList = append(requestList, request.id)
+      person.myRequests = requestList
+
+     // update allRequest
+     if requests, err := stub.GetState("allRequest"); err !=nil {
+         requests := []*Request{}
+     }
+     requests = append(requests, request)
+
+     stub.PutState(requestId, request)
+     stub.PutState("allRequest", requests)
+}
+
+
 
 
 func (t *SimpleChaincode) Query(stub *shim.ChaincodeStub, function string, args []string) ([]byte, error) {
