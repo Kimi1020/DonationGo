@@ -178,7 +178,7 @@ func (t *SimpleChaincode) createDonation(stub *shim.ChaincodeStub, args []string
     // }
     // donationList = append(donationList, donation.Id)
     // request.DonationList = donationList
-    return nil, nil     
+    
 }
 
 func (t *SimpleChaincode) Query(stub *shim.ChaincodeStub, function string, args []string) ([]byte, error) {
