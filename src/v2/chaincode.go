@@ -127,10 +127,13 @@ func (t *SimpleChaincode) createDonation(stub *shim.ChaincodeStub, args []string
      
      
      
-     // var person Person
-     // var myReqs, myDons []string
-     // // update person data
-     // personByte, err := stub.GetState(from)
+     var person Person
+     var myReqs, myDons []string
+     // update person data
+     personByte, err := stub.GetState(from)
+     if personByte == nil {
+        return nil, errors.New("Person didn't exist in this stub")
+     }
      // if err != nil {
      //    fmt.Println("No person value for " + from)
      //    person = Person{Id: from, Name: from, MyRequests: myReqs, MyDonations: myDons}
