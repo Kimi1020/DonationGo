@@ -127,8 +127,8 @@ func (t *SimpleChaincode) createDonation(stub *shim.ChaincodeStub, args []string
      
      
      
-     var person Person
-     var myReqs, myDons []string
+    // var person Person
+     //var myReqs, myDons []string
      // update person data
      personByte, err := stub.GetState(from)
      if personByte == nil {
