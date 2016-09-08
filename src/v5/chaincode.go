@@ -60,6 +60,9 @@ type Person struct {
     MyDonations []string `json:"myDonations"`
 }
 
+type AllRequest struct {
+    AllRequests []string `json:"allRequests"`
+}
 
 
 func main() {
@@ -80,8 +83,10 @@ func(t *SimpleChaincode) Init(stub *shim.ChaincodeStub, function string, args []
         return nil, err
     }
     
-    var allReqs []string
-    stub.PutState("allRequests", allReqs)
+    var allrsi []string
+    allRs := AllRequest{AllRequests: allrsi}
+    allJson,_ := json.Marshal(&allRs)
+    stub.PutState("allRequests", allJson)
 
     var names = [3]string{"Lucy", "Andy", "David"}
     var MyReqs, MyDons []string
@@ -252,12 +257,18 @@ func (t *SimpleChaincode) createRequest(stub *shim.ChaincodeStub, args []string)
      pkey := Perprefix + person.Id
      stub.PutState(pkey, pj)
 
-     allRes, _ := stub.GetState("allRequests")
-     if allRes == nil {
-         allRes = make([]string, 0)
+     allJson, _ := stub.GetState("allRequests")
+     var allrs3 AllRequest
+     err := json.Unmarshal(allJson, &allrs3)
+     allRs2 := allrs3.AllRequests
+     if allRs2 == nil {
+         allRs2 = make([]string, 0)
      }
-     allRes = append(allRes, []byte(request.Id)...)
-     stub.PutState("allRequests", allRes)
+     allRs2 = append(allRs2, request.Id)
+     allrs3.AllRequests = allRs2
+     allJson2,_ := json.Marshal(&allrs3)
+     stub.PutState("allRequests", allJson2)
+     
 
      return nil, nil
 
