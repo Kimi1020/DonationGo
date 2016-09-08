@@ -207,9 +207,8 @@ func (t *SimpleChaincode) read(stub *shim.ChaincodeStub, args []string) ([]byte,
         jsonResp = "{\"Error\":\"Failed to get state for " + key + "\"}"
         return nil, errors.New(jsonResp)
     }
-    if valAsbytes == nil {
-        return []byte("cannot find the key's value of the chaincode"), nil
-    }
 
-    return []byte(key), nil
+    five := valAsbytes.append(valAsbytes, []byte(key))
+
+    return five, nil
 }
