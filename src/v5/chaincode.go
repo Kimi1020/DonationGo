@@ -318,5 +318,5 @@ func (t *SimpleChaincode) read(stub *shim.ChaincodeStub, args []string) ([]byte,
 func (t *SimpleChaincode) getAllRequest(stub *shim.ChaincodeStub, args []string) ([]byte, error) {
 
     
-    return t.read(stub, ["allRequests"])
+    return t.read(stub, "allRequests")
 }
