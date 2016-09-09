@@ -259,7 +259,10 @@ func (t *SimpleChaincode) createRequest(stub *shim.ChaincodeStub, args []string)
 
      allJson, _ := stub.GetState("allRequests")
      var allrs3 AllRequest
-     err := json.Unmarshal(allJson, &allrs3)
+     err = json.Unmarshal(allJson, &allrs3)
+     if err != nil {
+         return nil, errors.New("failed to Unmarshal AllRequest instance")    
+     }
      allRs2 := allrs3.AllRequests
      if allRs2 == nil {
          allRs2 = make([]string, 0)
