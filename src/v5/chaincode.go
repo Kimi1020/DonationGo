@@ -74,16 +74,8 @@ func main() {
 }
 
 func(t *SimpleChaincode) Init(stub *shim.ChaincodeStub, function string, args []string) ([]byte, error) {
-    if len(args) != 1 {
-        return nil, errors.New("Incorrect number of arguments. Expecting 1")
-    }
-
-    err := stub.PutState("hello_world", []byte(args[0]))
-    if err != nil {
-        return nil, err
-    }
     
-    var allrsi []string
+    var allrsi []Request
     allRs := AllRequest{AllRequests: allrsi}
     allJson,_ := json.Marshal(&allRs)
     stub.PutState("allRequests", allJson)
