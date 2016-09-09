@@ -272,10 +272,7 @@ func (t *SimpleChaincode) createRequest(stub *shim.ChaincodeStub, args []string)
      allJson2,_ := json.Marshal(&allrs3)
      stub.PutState("allRequests", allJson2)
      
-
      return nil, nil
-
-     
 }
 
 
@@ -290,6 +287,10 @@ func (t *SimpleChaincode) Query(stub *shim.ChaincodeStub, function string, args 
         return t.read(stub, args)
     }
     
+    if function == "getAllRequest" {
+        return t.getAllRequest(stub, args)
+    }
+
     fmt.Println("query did not find func: " + function)
 
     return nil, errors.New("Received unknown function query")
@@ -312,4 +313,10 @@ func (t *SimpleChaincode) read(stub *shim.ChaincodeStub, args []string) ([]byte,
     }
 
     return valAsbytes, nil
+}
+
+func (t *SimpleChaincode) getAllRequest(stub *shim.ChaincodeStub, args []string) ([]byte, error) {
+
+    args[0] = "allRequests"
+    return t.read(stub, args)
 }
