@@ -61,7 +61,7 @@ type Person struct {
 }
 
 type AllRequest struct {
-    AllRequests []*Request `json:"allRequests"`
+    AllRequests []Request `json:"allRequests"`
 }
 
 
@@ -75,7 +75,7 @@ func main() {
 
 func(t *SimpleChaincode) Init(stub *shim.ChaincodeStub, function string, args []string) ([]byte, error) {
     
-    var allrsi []*Request
+    var allrsi []Request
     allRs := AllRequest{AllRequests: allrsi}
     allJson,_ := json.Marshal(&allRs)
     stub.PutState("allRequests", allJson)
@@ -257,7 +257,7 @@ func (t *SimpleChaincode) createRequest(stub *shim.ChaincodeStub, args []string)
      }
      allRs2 := allrs3.AllRequests
      if allRs2 == nil {
-         allRs2 = []*Request{}
+         allRs2 = []Request{}
      }
      allRs2 = append(allRs2, request)
      allrs3.AllRequests = allRs2
