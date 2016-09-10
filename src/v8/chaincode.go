@@ -204,6 +204,29 @@ func (t *SimpleChaincode) createDonation(stub *shim.ChaincodeStub, args []string
             return nil, errors.New("failed to JSON person instance")    
             }
     stub.PutState(toReid,requestJson)
+
+    allRis, err := stub.GetState("allRequests")
+    var allR AllRequest
+    err = json.Unmarshal(allRis, &allR)
+    if err != nil {
+         return nil, errors.New("failed to Unmarshal AllRequest instance")    
+    }
+    reques := allR.AllRequests
+    for i := 0; i < len(reques); i++ { 
+        if reques[i].Id == request.Id { 
+            reques[i].CurrentMoney += money
+            dl2 := reques[i].DonationList
+            if dl2 == nil {
+                dl2 = make([]string, 0)
+            }
+            dl2 = append(dl2, donationId)
+            reques[i].DonationList = dl2
+            break
+        }
+    }
+    allR.AllRequests = reques
+    requesJson,err := json.Marshal(&allR)
+    stub.PutState("allRequests", requesJson)
     return nil, nil     
 }
 
@@ -239,7 +262,7 @@ func (t *SimpleChaincode) createRequest(stub *shim.ChaincodeStub, args []string)
             return nil, errors.New("failed to Marshal request instance")    
      }
      var rkey string
-     rkey = Reqprefix + request.Id
+     rkey = Perprefix + request.Id
      stub.PutState(rkey, rj)
 
 
