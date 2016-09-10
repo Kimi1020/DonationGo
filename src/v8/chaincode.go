@@ -21,7 +21,6 @@ package main
 
 import (
     "errors"
-    "strings"
     "encoding/json"
     "fmt"
     "strconv"
@@ -205,30 +204,6 @@ func (t *SimpleChaincode) createDonation(stub *shim.ChaincodeStub, args []string
             return nil, errors.New("failed to JSON person instance")    
             }
     stub.PutState(toReid,requestJson)
-
-    allRis, err := stub.GetState("allRequests")
-    var allR AllRequest
-    err = json.Unmarshal(allRis, &allR)
-    if err != nil {
-         return nil, errors.New("failed to Unmarshal AllRequest instance")    
-    }
-    reques := allR.AllRequests
-    for _,v := range reques { 
-        isEqu := strings.EqualFold(v.Id, request.Id)
-        if isEqu == true {
-            v.CurrentMoney += money
-            dl2 := v.DonationList
-            if dl2 == nil {
-                dl2 = make([]string, 0)
-            }
-            dl2 = append(dl2, donationId)
-            v.DonationList = dl2
-            break
-        }
-    }
-    allR.AllRequests = reques
-    requesJson,err := json.Marshal(&allR)
-    stub.PutState("allRequests", requesJson)
     return nil, nil     
 }
 
