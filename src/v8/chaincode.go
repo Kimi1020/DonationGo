@@ -213,8 +213,8 @@ func (t *SimpleChaincode) createDonation(stub *shim.ChaincodeStub, args []string
          return nil, errors.New("failed to Unmarshal AllRequest instance")    
     }
     reques := allR.AllRequests
-    for _,v := range reques {
-        if strings.EqualFold(v.Id, request.Id) {
+    for _,v := range reques { 
+        if (strings.EqualFold(v.Id, request.Id)) {
             v.CurrentMoney += money
             dl2 := v.DonationList
             if dl2 == nil {
