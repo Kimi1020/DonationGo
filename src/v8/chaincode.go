@@ -225,7 +225,7 @@ func (t *SimpleChaincode) createDonation(stub *shim.ChaincodeStub, args []string
         }
     }
     allR.AllRequests = reques
-    requesJson,err := json.Marshal(allRis)
+    requesJson,err := json.Marshal(&allR)
     stub.PutState("allRequests", requesJson)
     return nil, nil     
 }
